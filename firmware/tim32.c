@@ -14,10 +14,10 @@ void tim32_init(void)
 	/* reset timer */
 	TCCR1A = 0;
 	TCCR1B = 0;
-	
+
 	/* clear ticks */
 	tim32_clear();
-	
+
 	/* overflow interrupt enable */
 	TIMSK1 |= (1 << TOIE1);
 }

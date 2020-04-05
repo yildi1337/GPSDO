@@ -10,7 +10,7 @@ void dac_init(void)
 {
 	/* set nCS pin as output */
 	DAC_DDR_nCS |= (1 << DAC_PIN_nCS);
-	
+
 	/* disable SPI communication */
 	dac_spi_disable();
 }

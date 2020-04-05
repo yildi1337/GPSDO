@@ -9,11 +9,11 @@
 
 #include "main.h"
 
-#define LED_PORT	PORTD
-#define LED_DDR		DDRD
-#define LED_1		3
-#define LED_2		4
-#define LED_3		5
+#define LED_PORT		PORTD
+#define LED_DDR			DDRD
+#define LED_1			3
+#define LED_2			4
+#define LED_3			5
 
 #define LED_1_ON		LED_PORT |= (1 << LED_1)
 #define LED_2_ON		LED_PORT |= (1 << LED_2)

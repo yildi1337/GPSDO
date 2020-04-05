@@ -33,13 +33,13 @@
 		75a:	91 1d       	adc	r25, r1																	; 1 cycle
 		75c:	08 95       	ret																			; 4 cycles
 
-		670:	6b 01       	movw	r12, r22															; 1 cycle	
+		670:	6b 01       	movw	r12, r22															; 1 cycle
 		672:	7c 01       	movw	r14, r24															; 1 cycle
 
 
 
 ;/* reset 32-bit counter */
-;tim32_clear();	
+;tim32_clear();
 646:	60 d0       	rcall	.+192    		; 0x708 <tim32_clear>										; 3 cycles
 
 		;void tim32_clear(void)
@@ -52,10 +52,10 @@
 		718:	10 92 79 01 	sts	0x0179, r1	; 0x800179 <tim32_ticks+0x2>								; 2 cycles
 		71c:	10 92 7a 01 	sts	0x017A, r1	; 0x80017a <tim32_ticks+0x3>								; 2 cycles
 		720:	08 95       	ret																			; 4 cycles
-	 
 
-	 
-;/* start counter */	 
+
+
+;/* start counter */
 ;tim32_start();
 648:	58 d0       	rcall	.+176    		; 0x6fa <tim32_start>										; 3 cycles
 
