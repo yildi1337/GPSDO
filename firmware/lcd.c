@@ -126,6 +126,9 @@ void lcd_float64_freq_MHz(float64_t freq, uint8_t number_of_chars)
 	for (uint8_t i = 0; i < number_of_chars-buffer_freq_len; i++)
 		lcd_string_append(buffer_freq, "0", buffer_freq_len+i);
 
+	if (buffer_freq[0] == '1' && buffer_freq[1] == '0')
+		lcd_string_append(buffer_freq, "0", number_of_chars);
+
 	lcd_string(buffer_freq);
 	lcd_string(" MHz");
 }

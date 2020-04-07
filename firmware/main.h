@@ -28,7 +28,7 @@
 #include "fifo.h"
 
 #define MAIN_GATE_TIME_IN_SECONDS			60
-#define MAIN_AVERAGING_TIME_IN_MINUTES		10
+#define MAIN_AVERAGING_TIME_IN_MINUTES		1
 
 #define ACS712_FACTOR						0.185
 #define ACS712_VOFFSET						2.513

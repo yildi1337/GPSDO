@@ -10,7 +10,7 @@
 #define MAIN_GPS_PPS_AVERAGE_IN_SECONDS		MAIN_GATE_TIME_IN_SECONDS
 
 /* the number of chars of the displayed frequency */
-#define MAIN_LCD_FREQ_NUMBER_OF_CHARS		12
+#define MAIN_LCD_FREQ_NUMBER_OF_CHARS		11
 
 /* time in ms to display status messages */
 #define MAIN_LCD_TIME_STATUS_MESSAGES_MS	2500
@@ -33,6 +33,7 @@ uint8_t main_lcd_blink_counter = 0;
 /* prototypes of additional functions */
 void init(void);
 void update_lcd_first_line(void);
+int8_t compare_frequencies(float64_t measured, float64_t reference);
 
 /* main program */
 int main(void)
@@ -61,12 +62,12 @@ int main(void)
 		lcd_string("at ");
 		lcd_setcursor(3,2);
 		lcd_float(current);
-		lcd_string(" A");
+		lcd_string(" A ...");
 
 		if (current > 0.4) {
 			LED_1_TOGGLE;
 			lcd_setcursor(0,1);
-			lcd_string("OCXO heating ...");
+			lcd_string("OCXO heating    ");
 		}
 		else {
 			LED_1_ON;
@@ -100,6 +101,7 @@ int main(void)
 	}
 
 	/* OCXO stable and GPS available */
+	fifo_init();
 	lcd_clear();
 	while(1)
 	{
@@ -119,8 +121,11 @@ int main(void)
 			lcd_setcursor(0,2);
 			lcd_float64_freq_MHz(ticks_average, MAIN_LCD_FREQ_NUMBER_OF_CHARS);
 
+			/* compare measured frequency to ideal frequency of 10 MHz */
+			int8_t comp = compare_frequencies(ticks_average, fp64_sd((float)F_CPU));
+
 			/* adjust OCXO control voltage */
-			if (fp64_compare(ticks_average, fp64_sd((float)F_CPU)) == -1) {
+			if (comp == -1) {
 				if (main_dac_vctrl_digital_value < (DAC_RESOLUTION-1))
 					main_dac_vctrl_digital_value++;
 				dac_set_digital_value(main_dac_vctrl_digital_value);
@@ -133,7 +138,7 @@ int main(void)
 					main_lcd_blink_counter = 0;
 				LED_3_OFF;
 			}
-			else if (fp64_compare(ticks_average, fp64_sd((float)F_CPU)) == 1) {
+			else if (comp == 1) {
 				if (main_dac_vctrl_digital_value > 0)
 					main_dac_vctrl_digital_value--;
 				dac_set_digital_value(main_dac_vctrl_digital_value);
@@ -146,7 +151,7 @@ int main(void)
 					main_lcd_blink_counter = 0;
 				LED_3_OFF;
 			}
-			else {
+			else if (comp == 0) {
 				LED_3_ON;
 			}
 		}
@@ -200,16 +205,35 @@ void update_lcd_first_line(void)
 	/* OCXO supply current */
 	uint16_t adc_value_ocxo = adc_get_value(ADC_CHANNEL_OCXO_CURRENT);
 	float current = ADC_VALUE_TO_OCXO_CURRENT_DIFF(adc_value_ocxo);
-	lcd_setcursor(0,1);
-	lcd_float(current);
-	lcd_string(" A");
+	if (current > 0.25 && current < 1.5) {
+		lcd_setcursor(0,1);
+		lcd_float(current);
+		lcd_string(" A");
+	}
 
 	/* measured control voltage */
 	uint16_t adc_value_vctrl = adc_get_value(ADC_CHANNEL_OCXO_VCTRL);
 	float voltage = ADC_VALUE_TO_OCXO_VCTRL_SE(adc_value_vctrl);
-	lcd_setcursor(10,1);
-	lcd_float(voltage);
-	lcd_string(" V");
+	if (voltage > 0.0 && voltage < 5.0) {
+		lcd_setcursor(10,1);
+		lcd_float(voltage);
+		lcd_string(" V");
+	}
+}
+
+int8_t compare_frequencies(float64_t measured, float64_t reference)
+{
+	float64_t fp64_difference = fp64_sub(measured, reference);
+	float64_t fp64_difference_uHz = fp64_mul(fp64_difference, fp64_sd((float)1e6));
+	int64_t int64_difference_uHz = fp64_to_int64(fp64_difference_uHz);
+
+	if (int64_difference_uHz < 0)
+		return -1;
+
+	if (int64_difference_uHz > 0)
+		return 1;
+
+	return 0;
 }
 
 /* interrupt service routines */
