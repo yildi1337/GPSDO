@@ -26,6 +26,14 @@ The PCB was designed in Autodesk EAGLE 9.6.0 and manufactured by [JLCPCB](https:
   <img src="https://github.com/yildi1337/GPSDO/blob/master/board/bottomview.png" />
 </p>
 
+<p align="center">
+  <img src="https://github.com/yildi1337/GPSDO/blob/master/pictures/open_1.jpg" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/yildi1337/GPSDO/blob/master/pictures/open_2.jpg" />
+</p>
+
 # Software
 The microcontroller is programmed in C using Atmel Studio 7.0.1931 and compiled with avr-gcc as part of the avr8-gnu-toolchain.
 
