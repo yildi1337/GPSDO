@@ -58,3 +58,8 @@ The microcontroller is programmed in C using Atmel Studio 7.0.1931 and compiled 
 <p align="center">
   <img src="https://github.com/yildi1337/GPSDO/blob/master/pictures/u-center_2.jpg" />
 </p>
+
+# Short-Term Stability
+<p align="center">
+  <img src="https://github.com/yildi1337/GPSDO/blob/master/measurements/short%20term%20stability/fswp_screenshot.png" />
+</p>
