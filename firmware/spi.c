@@ -71,7 +71,5 @@ void spi_wait_for_transmission_complete(void)
 	#else
 		/* not needed */
 	#endif
-
-
 }
 
