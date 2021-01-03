@@ -10,7 +10,7 @@ A Global Positioning System (GPS) Disciplined Oscillator (DO)
 </p>
 
 # Video
-[![Video @ YouTube](http://img.youtube.com/vi/EQjGhx4-qjA/0.jpg)](http://www.youtube.com/watch?v=EQjGhx4-qjA "10 MHZ GPS Disciplined OCXO based on u-blox NEO-7N Chip")
+[![Video @ YouTube](http://img.youtube.com/vi/EQjGhx4-qjA/0.jpg)](http://www.youtube.com/watch?v=EQjGhx4-qjA "10 MHz GPS Disciplined OCXO based on u-blox NEO-7N Chip")
 
 # Schematics
 Please see subdirectory *schematics*.
